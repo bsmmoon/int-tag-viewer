@@ -4,8 +4,9 @@
   "description": "Viewer for INT TAG",
   "main": "index.js",
   "scripts": {
+    "start": "react-scripts start",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "./node_modules/.bin/webpack-dev-server --config ./webpack/webpack.dev.config.js"
+    "dev": "./node_modules/.bin/webpack-dev-server --config ./webpack/webpack.config.dev --mode development"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
     "eslint": "^4.18.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-scripts": "^1.1.1",
     "webpack": "^4.1.0",
     "webpack-dev-server": "^3.1.0"
   },
