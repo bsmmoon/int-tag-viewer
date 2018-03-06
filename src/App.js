@@ -14,7 +14,8 @@ class App extends Component {
     return (
       <div>
         <p>{this.state.message}</p>
-        <Test/>
+        <Test name="TEST 1"/>
+        <Test name="TEST 2"/>
       </div>
     )
   }
