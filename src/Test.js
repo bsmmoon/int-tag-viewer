@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 
-import Test from './Test';
-
-class App extends Component {
+class Test extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: 'This is my new react app',
+      message: 'This is my new test component',
     };
   }
 
@@ -14,10 +12,9 @@ class App extends Component {
     return (
       <div>
         <p>{this.state.message}</p>
-        <Test/>
       </div>
     )
   }
 }
 
-export default App
+export default Test
