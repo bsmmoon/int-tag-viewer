@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars */
 import React, {Component} from 'react';
 
-import Test from './Test';
 import LogLine from './LogLine';
 /* eslint-enable no-unused-vars */
 
@@ -20,7 +19,6 @@ class App extends Component {
     let data = DataAdapter.import();
     this.state = {
       data: data,
-      message: 'This is my new react app',
     };
   }
 
@@ -37,9 +35,7 @@ class App extends Component {
         time={logLine.time}
       />;
     });
-    return (
-      <div className='container'>{logLines}</div>
-    );
+    return logLines;
   }
 
   /**
@@ -53,11 +49,10 @@ class App extends Component {
     const logLines = this.logLines();
 
     return (
-      <div>
-        <p>{this.state.message}</p>
-        <Test name="TEST 1"/>
-        <Test name="TEST 2"/>
-
+      <div className='container'>
+        <div className='row'>
+          <div className='col-xs-12'><h1>HEADER</h1></div>
+        </div>
         {logLines}
       </div>
     );
