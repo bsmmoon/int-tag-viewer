@@ -2,6 +2,6 @@
     "extends": "google",
     "parser": "babel-eslint",
     "rules": {
-        "max-len": [2, 120, 4, {"ignoreUrls": true}]
+        "max-len": [2, 150, 4, {"ignoreUrls": true}]
     }
 }
