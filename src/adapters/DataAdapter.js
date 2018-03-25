@@ -22,8 +22,16 @@ class DataAdapter {
       {id: 2, description: 'I should buy a boat', time: '2017-03-20 T10:01:00'},
       {id: 1, description: 'Corgi is cute', time: '2017-03-20 T10:00:00'},
     ];
-    return {
+    let list = {
+      name: 'Name of the Current List',
+      description: 'Description of the Current List',
+      tags: 'Applied Tags / Rules',
+      filters: 'Additional Filters',
+      time_range: 'Time Range Options',
       logs: logs,
+    };
+    return {
+      list: list,
       tags: [
         {name: 'Bucket List', log_ids: [2, 3]},
       ],

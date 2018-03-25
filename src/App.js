@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 
 import LogLine from './LogLine';
+import ListSummary from './ListSummary';
 /* eslint-enable no-unused-vars */
 
 import DataAdapter from './adapters/DataAdapter';
@@ -18,16 +19,33 @@ class App extends Component {
     super(props);
     let data = DataAdapter.import();
     this.state = {
-      data: data,
+      list: data.list,
+      tags: data.tags,
     };
   }
 
   /**
    * construct LogLing components
+   * @param {object} listData with name, description, tags, filters, and time_range
    * @return {jsx} component
    */
-  logLines() {
-    const logLines = this.state.data.logs.map(function(logLine) {
+  makeListSummaryComponent(listData) {
+    return <ListSummary
+      name={listData.name}
+      description={listData.description}
+      tags={listData.tags}
+      filters={listData.filters}
+      time_range={listData.time_range}
+    />;
+  }
+
+  /**
+   * construct LogLing components
+   * @param {objects} logs array of log data with id, description, and time
+   * @return {jsx} component
+   */
+  makeLogLinesComponent(logs) {
+    const logLinesComponent = logs.map(function(logLine) {
       return <LogLine
         key={logLine.id}
         id={logLine.id}
@@ -35,7 +53,7 @@ class App extends Component {
         time={logLine.time}
       />;
     });
-    return logLines;
+    return logLinesComponent;
   }
 
   /**
@@ -46,16 +64,13 @@ class App extends Component {
     console.log('App#render');
     console.log(this.state);
 
-    const logLines = this.logLines();
+    const listSummaryComponent = this.makeListSummaryComponent(this.state.list);
+    const logLinesComponent = this.makeLogLinesComponent(this.state.list.logs);
 
     return (
       <div className='container'>
-        <div className='row'><div className='col-xs-12'>Name of the Current List</div></div>
-        <div className='row'><div className='col-xs-12'>Description of the Current List</div></div>
-        <div className='row'><div className='col-xs-12'>Applied Tags / Rules</div></div>
-        <div className='row'><div className='col-xs-12'>Additional Filters</div></div>
-        <div className='row'><div className='col-xs-12'>Time Range Options</div></div>
-        {logLines}
+        {listSummaryComponent}
+        {logLinesComponent}
       </div>
     );
   }
