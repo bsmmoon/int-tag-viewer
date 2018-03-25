@@ -2,7 +2,7 @@ class Style {
   static common() {
     const style = {
       font: {
-        bold: { 'font-weight': 'bold' },
+        bold: { 'fontWeight': 'bold' },
         colour: {
           red:   { 'color': '#DC143C' },
           green: { 'color': '#008000' },
