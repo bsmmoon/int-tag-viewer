@@ -1,19 +1,29 @@
+/**
+ * Style
+ */
 class Style {
+  /**
+   * base styles
+   * @return {jsx} object of styles
+   */
   static common() {
     const style = {
       font: {
-        bold: { 'fontWeight': 'bold' },
+        bold: {'fontWeight': 'bold'},
         colour: {
-          red:   { 'color': '#DC143C' },
-          green: { 'color': '#008000' },
+          red: {'color': '#DC143C'},
+          green: {'color': '#008000'},
         },
-      }
-    }
+      },
+    };
     return style;
   }
 
-  // styles: Array of Objects
-  // Later style will overwrite any existing style attribute.
+  /**
+   * Later style will overwrite any existing style attribute.
+   * @param {objects} styles Array of Objects
+   * @return {jsx} combined object of given styles
+   */
   static merge(styles) {
     let combined = {};
     for (let style of styles) {
@@ -23,4 +33,4 @@ class Style {
   }
 }
 
-export default Style
+export default Style;
