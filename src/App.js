@@ -50,9 +50,11 @@ class App extends Component {
 
     return (
       <div className='container'>
-        <div className='row'>
-          <div className='col-xs-12'><h1>HEADER</h1></div>
-        </div>
+        <div className='row'><div className='col-xs-12'>Name of the Current List</div></div>
+        <div className='row'><div className='col-xs-12'>Description of the Current List</div></div>
+        <div className='row'><div className='col-xs-12'>Applied Tags / Rules</div></div>
+        <div className='row'><div className='col-xs-12'>Additional Filters</div></div>
+        <div className='row'><div className='col-xs-12'>Time Range Options</div></div>
         {logLines}
       </div>
     );
