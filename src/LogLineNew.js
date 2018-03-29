@@ -9,9 +9,9 @@ import Icon from './Icon';
 import Style from './Style';
 
 /**
- * NewLogLine
+ * LogLineNew
  */
-class NewLogLine extends Component {
+class LogLineNew extends Component {
   /**
    * @param {*} props React props
    */
@@ -94,7 +94,7 @@ class NewLogLine extends Component {
     const tagComponents = this.makeTagComponents(this.state.tags);
 
     return (
-      <div className='row' style={this.style.presets.newLogLine}>
+      <div className='row' style={this.style.presets.logLineNew}>
         <div className='col-xs-1'>Add</div>
         <div className='col-xs-9'>
           <div className='row' style={Style.merge([this.style.base.align.vc])}>
@@ -125,4 +125,4 @@ class NewLogLine extends Component {
   }
 }
 
-export default NewLogLine;
+export default LogLineNew;

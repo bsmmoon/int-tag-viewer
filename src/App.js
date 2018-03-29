@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 
 import LogLine from './LogLine';
-import NewLogLine from './NewLogLine';
+import LogLineNew from './LogLineNew';
 import ListSummary from './ListSummary';
 /* eslint-enable no-unused-vars */
 
@@ -47,7 +47,7 @@ class App extends Component {
   makeNewLogLineComponent() {
     console.log('makeNewLogLineComponent');
     const allTags = this.state.tags;
-    const newLogLineComponent = <NewLogLine tags={allTags}/>;
+    const newLogLineComponent = <LogLineNew tags={allTags}/>;
     return newLogLineComponent;
   }
 

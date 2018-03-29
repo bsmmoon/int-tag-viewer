@@ -46,7 +46,7 @@ class Style {
         base.backgroundColour.blue,
         {padding: '2px 6px 2px 6px'},
       ]),
-      newLogLine: Style.merge([
+      logLineNew: Style.merge([
         base.backgroundColour.lightGrey,
         base.border.bottom,
         base.margin.bottom.medium,
