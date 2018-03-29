@@ -34,12 +34,27 @@ class ListSummary extends Component {
     console.log('ListSummary#render');
     console.log(this.state);
     return (
-      <div className='row' style={[]}>
-        <div className='row'><div className='col-xs-12'>{this.state.name}</div></div>
-        <div className='row'><div className='col-xs-12'>{this.state.description}</div></div>
-        <div className='row'><div className='col-xs-12'>{this.state.tags}</div></div>
-        <div className='row'><div className='col-xs-12'>{this.state.filters}</div></div>
-        <div className='row'><div className='col-xs-12'>{this.state.timeRange}</div></div>
+      <div className='row' style={Style.merge([this.style.base.margin.bottom.medium, this.style.base.font.size.small])}>
+        <div className='row' style={Style.merge([this.style.base.font.size.medium])}>
+          <div className='col-xs-2'>List Name:</div>
+          <div className='col-xs'>{this.state.name}</div>
+        </div>
+        <div className='row'>
+          <div className='col-xs-2'>List Description:</div>
+          <div className='col-xs'>{this.state.description}</div>
+        </div>
+        <div className='row'>
+          <div className='col-xs-2'>Applied Tags:</div>
+          <div className='col-xs'>{this.state.tags}</div>
+        </div>
+        <div className='row'>
+          <div className='col-xs-2'>Applied Filters:</div>
+          <div className='col-xs'>{this.state.filters}</div>
+        </div>
+        <div className='row'>
+          <div className='col-xs-2'>Time Range:</div>
+          <div className='col-xs'>{this.state.timeRange}</div>
+        </div>
       </div>
     );
   }

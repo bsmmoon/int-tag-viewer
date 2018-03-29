@@ -23,11 +23,11 @@ class DataAdapter {
       {id: 1, description: 'Corgi is cute', time: '2017-03-20 T10:00:00', tagIds: []},
     ];
     let list = {
-      name: 'Name of the Current List',
-      description: 'Description of the Current List',
-      tags: 'Applied Tags / Rules',
-      filters: 'Additional Filters',
-      timeRange: 'Time Range Options',
+      name: 'Test List',
+      description: 'This is a mock list for development',
+      tags: 'Not selected',
+      filters: 'Not selected',
+      timeRange: 'Not selected',
       logs: logs,
     };
     return {

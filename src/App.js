@@ -35,7 +35,7 @@ class App extends Component {
       description={listData.description}
       tags={listData.tags}
       filters={listData.filters}
-      time_range={listData.time_range}
+      timeRange={listData.timeRange}
     />;
   }
 

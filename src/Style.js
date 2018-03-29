@@ -14,17 +14,37 @@ class Style {
   }
 
   /**
+   * list of colours used
+   * @return {jsx} object of colours
+   */
+  static colours() {
+    const colours = {
+      red: '#DC143C',
+      green: '#008000',
+      blue: '#6666ff',
+      grey: '#e5e5e5',
+    };
+    return colours;
+  }
+
+  /**
    * preset combined styles
    * @return {jsx} object of styles
    */
   static presets() {
     const base = this.base();
+    const colours = this.colours();
     const presets = {
       logLine: Style.merge([
         base.backgroundColour.lightGrey,
         base.border.bottom,
-        base.margin.bottom,
+        base.margin.bottom.medium,
         base.align.hcvc,
+        {
+          borderLeftColor: colours.blue,
+          borderLeftStyle: 'solid',
+          borderLeftWidth: '6px',
+        },
       ]),
     };
     return presets;
@@ -34,12 +54,13 @@ class Style {
    * @return {jsx} object of styles
    */
   static base() {
+    const colours = this.colours();
     const style = {
       font: {
         bold: {'fontWeight': 'bold'},
         colour: {
-          red: {'color': '#DC143C'},
-          green: {'color': '#008000'},
+          red: {'color': colours.red},
+          green: {'color': colours.green},
         },
         size: {
           medium: {
@@ -52,7 +73,7 @@ class Style {
       },
       backgroundColour: {
         lightGrey: {
-          backgroundColor: '#D3D3D3',
+          backgroundColor: colours.grey,
         },
       },
       border: {
@@ -70,7 +91,12 @@ class Style {
           },
         },
         bottom: {
-          marginBottom: '20px',
+          small: {
+            marginBottom: '10px',
+          },
+          medium: {
+            marginBottom: '20px',
+          },
         },
       },
       align: {
