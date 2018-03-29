@@ -89,10 +89,10 @@ class Style {
         },
         size: {
           medium: {
-            fontSize: '18px',
+            fontSize: '16px',
           },
           small: {
-            fontSize: '13px',
+            fontSize: '11px',
           },
         },
       },

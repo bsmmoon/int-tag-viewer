@@ -65,6 +65,23 @@ class NewLogLine extends Component {
   }
 
   /**
+   * handle special keys
+   * @param {*} keyCode key code passed from react event
+   */
+  onKeyDown(keyCode) {
+    console.log(['KEY:', keyCode]);
+    if (keyCode === 8) {
+      if (this.state.newTag.length === 0) {
+        let tags = this.state.tags;
+        tags.pop();
+        this.setState({
+          tags: tags,
+        });
+      }
+    }
+  }
+
+  /**
    * usual React render
    * @return {jsx} component with row class
    */
@@ -90,6 +107,7 @@ class NewLogLine extends Component {
                 type="text"
                 value={this.state.newTag}
                 onChange={(e) => this.addTag(e.target.value)}
+                onKeyDown={(e) => this.onKeyDown(e.keyCode)}
               ></input>
             </div>
           </div>
