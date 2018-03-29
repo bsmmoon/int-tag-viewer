@@ -29,21 +29,26 @@ class NewLogLine extends Component {
 
   /**
    * convert string of tag into actual tag
+   * TODO: consider using ENTER instead to allow , in tag name
    * @param {*} newTag String of tag
    */
   addTag(newTag) {
-    if (newTag.slice(-1) === ',') {
-      const name = newTag.slice(0, -1);
+    newTag = newTag.replace(/[^0-9a-z,-_ ]/gi, '');
+    if (newTag.trim().slice(-1) === ',') {
+      newTag = newTag.slice(0, 20 + 1);
+      const name = newTag.slice(0, -1).trim();
       let tags = this.state.tags;
-      if (tags.indexOf(name) === -1) {
-        tags = tags.concat(name);
+      if (name.length > 0) {
+        if (tags.indexOf(name) === -1) {
+          tags = tags.concat(name);
+        }
       }
-
       this.setState({
         tags: tags,
         newTag: '',
       });
     } else {
+      newTag = newTag.slice(0, 20);
       this.setState({
         newTag: newTag,
       });
@@ -70,7 +75,6 @@ class NewLogLine extends Component {
    * @param {*} keyCode key code passed from react event
    */
   onKeyDown(keyCode) {
-    console.log(['KEY:', keyCode]);
     if (keyCode === 8) {
       if (this.state.newTag.length === 0) {
         let tags = this.state.tags;
