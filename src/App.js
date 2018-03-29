@@ -45,12 +45,18 @@ class App extends Component {
    * @return {jsx} component
    */
   makeLogLinesComponent(logs) {
+    console.log('makeLogLinesComponent');
+    const allTags = this.state.tags;
     const logLinesComponent = logs.map(function(logLine) {
+      const tags = logLine.tagIds.map(function(tagId) {
+        return allTags[tagId];
+      });
       return <LogLine
         key={logLine.id}
         id={logLine.id}
         description={logLine.description}
         time={logLine.time}
+        tags={tags}
       />;
     });
     return logLinesComponent;

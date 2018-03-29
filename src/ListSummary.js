@@ -22,7 +22,7 @@ class ListSummary extends Component {
       description: props.description,
       tags: props.tags,
       filters: props.filters,
-      time_range: props.time_range,
+      timeRange: props.timeRange,
     };
   }
 
@@ -39,7 +39,7 @@ class ListSummary extends Component {
         <div className='row'><div className='col-xs-12'>{this.state.description}</div></div>
         <div className='row'><div className='col-xs-12'>{this.state.tags}</div></div>
         <div className='row'><div className='col-xs-12'>{this.state.filters}</div></div>
-        <div className='row'><div className='col-xs-12'>{this.state.time_range}</div></div>
+        <div className='row'><div className='col-xs-12'>{this.state.timeRange}</div></div>
       </div>
     );
   }

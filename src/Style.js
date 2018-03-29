@@ -61,6 +61,14 @@ class Style {
         },
       },
       margin: {
+        right: {
+          small: {
+            marginRight: '10px',
+          },
+          meidum: {
+            marginRight: '20px',
+          },
+        },
         bottom: {
           marginBottom: '20px',
         },

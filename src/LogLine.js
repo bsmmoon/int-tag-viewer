@@ -1,6 +1,8 @@
 // React and component classes are not cught by Eslint.
 /* eslint-disable no-unused-vars */
 import React, {Component} from 'react';
+
+import Tag from './Tag';
 /* eslint-enable no-unused-vars */
 
 import Style from './Style';
@@ -21,7 +23,23 @@ class LogLine extends Component {
       id: props.id,
       description: props.description,
       time: props.time,
+      tags: props.tags,
     };
+  }
+
+  /**
+   * construct LogLing components
+   * @param {object} tags with name
+   * @return {jsx} span component
+   */
+  makeTagComponents(tags) {
+    const tagComponents = tags.length > 0 ? tags.map(function(tag) {
+      return <Tag key={tag.id} name={tag.name}/>;
+    }) : 'No tag';
+
+    return (
+      <span>{tagComponents}</span>
+    );
   }
 
   /**
@@ -31,6 +49,8 @@ class LogLine extends Component {
   render() {
     console.log('LogLine#render');
     console.log(this.state);
+
+    const tagComponents = this.makeTagComponents(this.state.tags);
     return (
       <div className='row' style={this.style.presets.logLine}>
         <div className='col-xs-1'>{this.state.id}</div>
@@ -40,13 +60,13 @@ class LogLine extends Component {
             <div className='col-xs-3' style={Style.merge([this.style.base.font.size.small])}>{this.state.time}</div>
           </div>
           <div className='row'>
-            <div className='col-xs-12' style={Style.merge([this.style.base.font.size.small])}>TAGS</div>
+            <div className='col-xs-12' style={Style.merge([this.style.base.font.size.small])}>{tagComponents}</div>
           </div>
         </div>
         <div className='col-xs-2'>
           <div className='row'>
             <div className='col-xs-6'>EDIT</div>
-            <div className='col-xs-6'>TAG</div>
+            <div className='col-xs-6'><Tag name='TAG'/></div>
           </div>
         </div>
       </div>
