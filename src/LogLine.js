@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 
 import Tag from './Tag';
+import Icon from './Icon';
 /* eslint-enable no-unused-vars */
 
 import Style from './Style';
@@ -35,7 +36,7 @@ class LogLine extends Component {
   makeTagComponents(tags) {
     const tagComponents = tags.length > 0 ? tags.map(function(tag) {
       return <Tag key={tag} name={tag}/>;
-    }) : 'No tag';
+    }) : <div style={Style.merge([this.style.base.margin.right.small, this.style.base.margin.bottom.tiny, {display: 'inline-block'}])}>No tag</div>;
 
     return (
       <span>{tagComponents}</span>
@@ -47,9 +48,6 @@ class LogLine extends Component {
    * @return {jsx} component with row class
    */
   render() {
-    console.log('LogLine#render');
-    console.log(this.state);
-
     const tagComponents = this.makeTagComponents(this.state.tags);
     return (
       <div className='row' style={this.style.presets.logLine}>
@@ -65,8 +63,8 @@ class LogLine extends Component {
         </div>
         <div className='col-xs-2'>
           <div className='row'>
-            <div className='col-xs-6'>EDIT</div>
-            <div className='col-xs-6'>TAGS</div>
+            <div className='col-xs-6'><Icon type={'fas fa-edit'}/></div>
+            <div className='col-xs-6'><Icon type={'fas fa-tag'}/></div>
           </div>
         </div>
       </div>

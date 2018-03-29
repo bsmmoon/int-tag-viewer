@@ -31,8 +31,6 @@ class ListSummary extends Component {
    * @return {jsx} component with row class
    */
   render() {
-    console.log('ListSummary#render');
-    console.log(this.state);
     return (
       <div className='row' style={Style.merge([this.style.base.margin.bottom.medium, this.style.base.font.size.small])}>
         <div className='row' style={Style.merge([this.style.base.font.size.medium])}>

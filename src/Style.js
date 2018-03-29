@@ -10,6 +10,7 @@ class Style {
     return {
       base: Style.base(),
       presets: Style.presets(),
+      colours: Style.colours(),
     };
   }
 
@@ -19,6 +20,7 @@ class Style {
    */
   static colours() {
     const colours = {
+      black: 'black',
       red: '#DC143C',
       green: '#008000',
       blue: '#6666ff',
@@ -37,16 +39,12 @@ class Style {
     const colours = this.colours();
     const presets = {
       tag: Style.merge([
-        {
-          display: 'inline-block',
-        },
+        {display: 'inline-block'},
         base.margin.right.small,
+        base.margin.bottom.tiny,
         base.font.colour.white,
         base.backgroundColour.blue,
-        base.margin.bottom.tiny,
-        {
-          padding: '2px 6px 2px 6px',
-        },
+        {padding: '2px 6px 2px 6px'},
       ]),
       newLogLine: Style.merge([
         base.backgroundColour.lightGrey,

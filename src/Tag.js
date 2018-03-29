@@ -27,8 +27,6 @@ class Tag extends Component {
    * @return {jsx} component with row class
    */
   render() {
-    console.log('Tag#render');
-    console.log(this.state);
     return (
       <div style={this.style.presets.tag}>{this.state.name}</div>
     );

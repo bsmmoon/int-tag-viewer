@@ -79,9 +79,6 @@ class App extends Component {
    * @return {jsx} component
    */
   render() {
-    console.log('App#render');
-    console.log(this.state);
-
     const newLogLineComponent = this.makeNewLogLineComponent();
     const listSummaryComponent = this.makeListSummaryComponent(this.state.list);
     const logLinesComponent = this.makeLogLinesComponent(this.state.list.logs);
