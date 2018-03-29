@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 
 import LogLine from './LogLine';
+import NewLogLine from './NewLogLine';
 import ListSummary from './ListSummary';
 /* eslint-enable no-unused-vars */
 
@@ -41,6 +42,17 @@ class App extends Component {
 
   /**
    * construct LogLing components
+   * @return {jsx} component
+   */
+  makeNewLogLineComponent() {
+    console.log('makeNewLogLineComponent');
+    const allTags = this.state.tags;
+    const newLogLineComponent = <NewLogLine tags={allTags}/>;
+    return newLogLineComponent;
+  }
+
+  /**
+   * construct LogLing components
    * @param {objects} logs array of log data with id, description, and time
    * @return {jsx} component
    */
@@ -49,7 +61,7 @@ class App extends Component {
     const allTags = this.state.tags;
     const logLinesComponent = logs.map(function(logLine) {
       const tags = logLine.tagIds.map(function(tagId) {
-        return allTags[tagId];
+        return allTags[tagId].name;
       });
       return <LogLine
         key={logLine.id}
@@ -70,12 +82,14 @@ class App extends Component {
     console.log('App#render');
     console.log(this.state);
 
+    const newLogLineComponent = this.makeNewLogLineComponent();
     const listSummaryComponent = this.makeListSummaryComponent(this.state.list);
     const logLinesComponent = this.makeLogLinesComponent(this.state.list.logs);
 
     return (
       <div className='container'>
         {listSummaryComponent}
+        {newLogLineComponent}
         {logLinesComponent}
       </div>
     );

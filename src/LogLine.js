@@ -34,7 +34,7 @@ class LogLine extends Component {
    */
   makeTagComponents(tags) {
     const tagComponents = tags.length > 0 ? tags.map(function(tag) {
-      return <Tag key={tag.id} name={tag.name}/>;
+      return <Tag key={tag} name={tag}/>;
     }) : 'No tag';
 
     return (
@@ -66,7 +66,7 @@ class LogLine extends Component {
         <div className='col-xs-2'>
           <div className='row'>
             <div className='col-xs-6'>EDIT</div>
-            <div className='col-xs-6'><Tag name='TAG'/></div>
+            <div className='col-xs-6'>TAGS</div>
           </div>
         </div>
       </div>

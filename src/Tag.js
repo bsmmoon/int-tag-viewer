@@ -30,7 +30,7 @@ class Tag extends Component {
     console.log('Tag#render');
     console.log(this.state);
     return (
-      <span style={Style.merge([this.style.base.margin.right.small])}>{this.state.name}</span>
+      <div style={this.style.presets.tag}>{this.state.name}</div>
     );
   }
 }

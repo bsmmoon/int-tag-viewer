@@ -23,6 +23,7 @@ class Style {
       green: '#008000',
       blue: '#6666ff',
       grey: '#e5e5e5',
+      white: '#ffffff',
     };
     return colours;
   }
@@ -35,6 +36,29 @@ class Style {
     const base = this.base();
     const colours = this.colours();
     const presets = {
+      tag: Style.merge([
+        {
+          display: 'inline-block',
+        },
+        base.margin.right.small,
+        base.font.colour.white,
+        base.backgroundColour.blue,
+        base.margin.bottom.tiny,
+        {
+          padding: '2px 6px 2px 6px',
+        },
+      ]),
+      newLogLine: Style.merge([
+        base.backgroundColour.lightGrey,
+        base.border.bottom,
+        base.margin.bottom.medium,
+        base.align.hcvc,
+        {
+          borderLeftColor: colours.red,
+          borderLeftStyle: 'solid',
+          borderLeftWidth: '6px',
+        },
+      ]),
       logLine: Style.merge([
         base.backgroundColour.lightGrey,
         base.border.bottom,
@@ -61,19 +85,23 @@ class Style {
         colour: {
           red: {'color': colours.red},
           green: {'color': colours.green},
+          white: {'color': colours.white},
         },
         size: {
           medium: {
             fontSize: '18px',
           },
           small: {
-            fontSize: '11px',
+            fontSize: '13px',
           },
         },
       },
       backgroundColour: {
         lightGrey: {
           backgroundColor: colours.grey,
+        },
+        blue: {
+          backgroundColor: colours.blue,
         },
       },
       border: {
@@ -91,6 +119,9 @@ class Style {
           },
         },
         bottom: {
+          tiny: {
+            marginBottom: '5px',
+          },
           small: {
             marginBottom: '10px',
           },
