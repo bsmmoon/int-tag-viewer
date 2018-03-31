@@ -22,8 +22,8 @@ class LogLineNew extends Component {
 
     this.state = {
       description: '',
-      tags: [],
       newTag: '',
+      tags: [],
       addNewLogLine: props.addNewLogLine,
       setTagsToLogLine: props.setTagsToLogLine,
     };
@@ -32,23 +32,32 @@ class LogLineNew extends Component {
   /**
    * convert string of tag into actual tag
    * TODO: consider using ENTER instead to allow , in tag name
-   * @param {*} newTag String of tag
+   * @param {*} name tag name
    */
-  addTag(newTag) {
+  addTag(name) {
+    let tags = this.state.tags;
+    if (name.length > 0) {
+      if (tags.indexOf(name) === -1) {
+        tags = tags.concat(name);
+      }
+    }
+    this.setState({
+      tags: tags,
+      newTag: '',
+    });
+  }
+
+  /**
+   * trigger addTag if , is passed
+   * TODO: consider using ENTER instead to allow , in tag name
+   * @param {*} newTag tag name
+   */
+  triggerAddTag(newTag) {
     newTag = newTag.replace(/[^0-9a-z,-_ ]/gi, '');
     if (newTag.trim().slice(-1) === ',') {
       newTag = newTag.slice(0, 20 + 1);
       const name = newTag.slice(0, -1).trim();
-      let tags = this.state.tags;
-      if (name.length > 0) {
-        if (tags.indexOf(name) === -1) {
-          tags = tags.concat(name);
-        }
-      }
-      this.setState({
-        tags: tags,
-        newTag: '',
-      });
+      this.addTag(name);
     } else {
       newTag = newTag.slice(0, 20);
       this.setState({
@@ -73,10 +82,10 @@ class LogLineNew extends Component {
   }
 
   /**
-   * handle special keys
+   * handle special keys at tag input
    * @param {*} keyCode key code passed from react event
    */
-  onKeyDown(keyCode) {
+  onKeyDownAtTagInput(keyCode) {
     if (keyCode === 8) {
       if (this.state.newTag.length === 0) {
         let tags = this.state.tags;
@@ -85,6 +94,24 @@ class LogLineNew extends Component {
           tags: tags,
         });
       }
+    } else if (keyCode === 13) {
+      if (this.state.newTag.length > 0) {
+        this.addTag(this.state.newTag);
+      } else {
+        this.onKeyDown(keyCode);
+      }
+    } else {
+      this.onKeyDown(keyCode);
+    }
+  }
+
+  /**
+   * handle special keys at this component
+   * @param {*} keyCode key code passed from react event
+   */
+  onKeyDown(keyCode) {
+    if (keyCode === 13) {
+      this.triggerSave();
     }
   }
 
@@ -95,6 +122,11 @@ class LogLineNew extends Component {
     let newLogLine = this.state.addNewLogLine(this.state.description);
     if (!newLogLine) return;
     this.state.setTagsToLogLine(newLogLine.id, this.state.tags);
+    this.setState({
+      description: '',
+      newTag: '',
+      tags: [],
+    });
   }
 
   /**
@@ -110,7 +142,12 @@ class LogLineNew extends Component {
         <div className='col-xs-9'>
           <div className='row' style={Style.merge([this.style.base.align.vc])}>
             <div className='col-xs-9' style={Style.merge([this.style.base.font.size.medium])}>
-              <input type="text" value={this.state.description} onChange={(e) => this.setState({description: e.target.value})}></input>
+              <input
+                type="text"
+                value={this.state.description}
+                onChange={(e) => this.setState({description: e.target.value})}
+                onKeyDown={(e) => this.onKeyDown(e.keyCode)}
+              ></input>
             </div>
           </div>
           <div className='row'>
@@ -119,8 +156,8 @@ class LogLineNew extends Component {
               <input
                 type="text"
                 value={this.state.newTag}
-                onChange={(e) => this.addTag(e.target.value)}
-                onKeyDown={(e) => this.onKeyDown(e.keyCode)}
+                onChange={(e) => this.triggerAddTag(e.target.value)}
+                onKeyDown={(e) => this.onKeyDownAtTagInput(e.keyCode)}
               ></input>
             </div>
           </div>
