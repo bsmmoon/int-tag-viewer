@@ -25,6 +25,7 @@ class LogLine extends Component {
       description: props.description,
       time: props.time,
       tags: props.tags,
+      toggleTag: props.toggleTag,
     };
   }
 
@@ -35,8 +36,14 @@ class LogLine extends Component {
    */
   makeTagComponents(tags) {
     const tagComponents = tags.length > 0 ? tags.map(function(tag) {
-      return <Tag key={tag} name={tag}/>;
-    }) : <div style={Style.merge([this.style.base.margin.right.small, this.style.base.margin.bottom.tiny, {display: 'inline-block'}])}>No tag</div>;
+      return <Tag
+        key={tag}
+        name={tag}
+        toggleTag={this.state.toggleTag}
+      />;
+    }.bind(this)) : <div
+      style={Style.merge([this.style.base.margin.right.small, this.style.base.margin.bottom.tiny, {display: 'inline-block'}])}
+    >No tag</div>;
 
     return (
       <span>{tagComponents}</span>

@@ -43,7 +43,7 @@ class ListSummary extends Component {
         </div>
         <div className='row'>
           <div className='col-xs-2'>Applied Tags:</div>
-          <div className='col-xs'>{this.state.tags}</div>
+          <div className='col-xs'>{this.state.tags.length > 0 ? this.state.tags.join(', ') : 'Not selected'}</div>
         </div>
         <div className='row'>
           <div className='col-xs-2'>Applied Filters:</div>

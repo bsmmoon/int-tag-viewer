@@ -18,12 +18,38 @@ class App extends Component {
    */
   constructor(props) {
     super(props);
+    let state = {};
     let data = DataAdapter.import();
-    this.state = {
+    Object.assign(state, {
       listDetails: data.listDetails,
       logLines: data.logLines,
       tags: data.tags,
-    };
+    });
+    this.state = state;
+  }
+
+  /**
+   * toggle tag
+   * @param {*} tag tag name
+   */
+  toggleTag(tag) {
+    let state = this.state;
+    let tags = state.listDetails.tags;
+    const index = tags.indexOf(tag);
+    if (index === -1) {
+      tags.push(tag);
+    } else {
+      tags.splice(index, 1);
+    }
+    let data = DataAdapter.import({
+      tags: tags,
+    });
+    Object.assign(state, {
+      listDetails: data.listDetails,
+      logLines: data.logLines,
+      tags: data.tags,
+    });
+    this.setState(state);
   }
 
   /**
@@ -96,6 +122,7 @@ class App extends Component {
       tags={allTags}
       addNewLogLine={this.addNewLogLine.bind(this)}
       setTagsToLogLine={this.setTagsToLogLine.bind(this)}
+      toggleTag={this.toggleTag.bind(this)}
     />;
     return newLogLineComponent;
   }
@@ -124,8 +151,9 @@ class App extends Component {
         description={logLine.description}
         time={logLine.time}
         tags={tags}
+        toggleTag={this.toggleTag.bind(this)}
       />;
-    });
+    }.bind(this));
     return logLinesComponent;
   }
 

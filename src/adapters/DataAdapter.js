@@ -6,15 +6,29 @@ import StringService from '../services/StringService';
 class DataAdapter {
   /**
    * import
+   * @param {object} opts options
    * @return {object} data needed by the app
    */
-  static import() {
-    const data = this.placeholderData();
+  static import(opts={}) {
+    let data = this.placeholderData();
+    if (!!opts.tags) {
+      if (opts.tags.length > 0) {
+        let logLines = {};
+        opts.tags.forEach(function(tag) {
+          data.tags[tag].logIds.forEach(function(logId) {
+            logLines[logId] = data.logLines[logId];
+          });
+        });
+        data.logLines = logLines;
+      }
+      data.listDetails.tags = opts.tags;
+    }
     return data;
   }
 
   /**
    * make placeholder data for development
+   * @param {object} opts options
    * @return {object} placeholder data for development
    */
   static placeholderData() {
@@ -39,9 +53,10 @@ class DataAdapter {
       });
     });
     let listDetails = {
+      id: 1,
       name: 'Test List',
       description: 'This is a mock list for development',
-      tags: 'Not selected',
+      tags: [],
       filters: 'Not selected',
       timeRange: 'Not selected',
     };

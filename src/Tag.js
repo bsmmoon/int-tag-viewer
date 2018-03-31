@@ -19,6 +19,7 @@ class Tag extends Component {
 
     this.state = {
       name: props.name,
+      toggleTag: props.toggleTag,
     };
   }
 
@@ -28,7 +29,7 @@ class Tag extends Component {
    */
   render() {
     return (
-      <div style={this.style.presets.tag}>{this.state.name}</div>
+      <div style={this.style.presets.tag} onClick={() => this.state.toggleTag(this.state.name)}>{this.state.name}</div>
     );
   }
 }
