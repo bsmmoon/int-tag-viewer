@@ -18,21 +18,29 @@ class DataAdapter {
    * @return {object} placeholder data for development
    */
   static placeholderData() {
-    let logs = [
-      {id: 3, description: 'Go to Constantinople', time: '2017-03-20 T10:02:00:000', tagIds: ['Bucket List', 'Travel']},
-      {id: 2, description: 'I should buy a boat', time: '2017-03-20 T10:01:00:000', tagIds: ['Bucket List']},
-      {id: 1, description: 'Corgi is cute', time: '2017-03-20 T10:00:00:000', tagIds: []},
-    ];
-    let list = {
+    let logLines = {};
+    [
+      {description: 'Go to Constantinople', time: '2017-03-20 T10:02:00:000', tags: ['Bucket List', 'Travel']},
+      {description: 'I should buy a boat', time: '2017-03-20 T10:01:00:000', tags: ['Bucket List']},
+      {description: 'Corgi is cute', time: '2017-03-20 T10:00:00:000', tags: []},
+    ].forEach(function(logLineData) {
+      let time = logLineData.time;
+      let id = StringService.hashCode([logLineData.description, time].join(' '));
+      let logLine = Object.assign(logLineData, {
+        id: id,
+      });
+      logLines[logLine.id] = logLine;
+    });
+    let listDetails = {
       name: 'Test List',
       description: 'This is a mock list for development',
       tags: 'Not selected',
       filters: 'Not selected',
       timeRange: 'Not selected',
-      logs: logs,
     };
     return {
-      list: list,
+      listDetails: listDetails,
+      logLines: logLines,
       tags: {
         'Travel': {id: 'Travel', name: 'Travel', logIds: [3]},
         'Bucket List': {id: 'Bucket List', name: 'Bucket List', logIds: [2, 3]},
@@ -54,6 +62,7 @@ class DataAdapter {
     let logLine = Object.assign(logLineData, {
       id: id,
       time: time,
+      tags: [],
     });
     return logLine;
   }

@@ -93,7 +93,8 @@ class LogLineNew extends Component {
    */
   triggerSave() {
     let newLogLine = this.state.addNewLogLine(this.state.description);
-    // this.state.setTagsToLogLine(newLogLine.id, this.state.tags);
+    if (!newLogLine) return;
+    this.state.setTagsToLogLine(newLogLine.id, this.state.tags);
   }
 
   /**

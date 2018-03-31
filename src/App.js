@@ -20,7 +20,8 @@ class App extends Component {
     super(props);
     let data = DataAdapter.import();
     this.state = {
-      list: data.list,
+      listDetails: data.listDetails,
+      logLines: data.logLines,
       tags: data.tags,
     };
   }
@@ -31,26 +32,30 @@ class App extends Component {
    * @return {object} object of new LogLine
    */
   addNewLogLine(description) {
-    let logs = this.state.list.logs;
+    let logLines = this.state.logLines;
     let newLogLineData = {
       description: description,
-      tagIds: [],
+      tags: [],
     };
 
     let newLog = DataAdapter.createLogLine(newLogLineData);
     if (!newLog) return;
 
-    logs = logs.unshift(newLog);
-    this.setState({logs: logs});
+    logLines[newLog.id] = newLog;
+    this.setState({logLines: logLines});
     return newLog;
   }
 
   /**
    * set tags to LogLine. if necessary create new tags.
-   * @param {*} logLine hi
-   * @param {*} tags list of name of tags
+   * @param {*} logLineId id
+   * @param {*} logLineTags list of name of tags
    */
-  setTagsToLogLine(logLine, tags) {
+  setTagsToLogLine(logLineId, logLineTags) {
+    let logLines = this.state.logLines;
+    let tags = this.state.tags;
+    logLines[logLineId].tags = logLineTags;
+    this.setState({logLines: logLines, tags: tags});
   }
 
   /**
@@ -84,13 +89,20 @@ class App extends Component {
 
   /**
    * construct LogLing components
-   * @param {objects} logs array of log data with id, description, and time
+   * @param {objects} logLines array of log data with id, description, and time
    * @return {jsx} component
    */
-  makeLogLinesComponent(logs) {
+  makeLogLinesComponent(logLines) {
     const allTags = this.state.tags;
-    const logLinesComponent = logs.map(function(logLine) {
-      const tags = logLine.tagIds.map(function(tagId) {
+    const logLinesComponent = Object.values(logLines).sort(function(a, b) {
+      if (a.time > b.time) {
+        return -1;
+      } else if (a.time < b.time) {
+        return 1;
+      }
+      return 0;
+    }).map(function(logLine) {
+      const tags = logLine.tags.map(function(tagId) {
         return allTags[tagId].name;
       });
       return <LogLine
@@ -110,8 +122,8 @@ class App extends Component {
    */
   render() {
     const newLogLineComponent = this.makeNewLogLineComponent();
-    const listSummaryComponent = this.makeListSummaryComponent(this.state.list);
-    const logLinesComponent = this.makeLogLinesComponent(this.state.list.logs);
+    const listSummaryComponent = this.makeListSummaryComponent(this.state.listDetails);
+    const logLinesComponent = this.makeLogLinesComponent(this.state.logLines);
 
     return (
       <div className='container'>
