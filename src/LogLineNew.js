@@ -24,6 +24,8 @@ class LogLineNew extends Component {
       description: '',
       tags: [],
       newTag: '',
+      addNewLogLine: props.addNewLogLine,
+      setTagsToLogLine: props.setTagsToLogLine,
     };
   }
 
@@ -87,6 +89,14 @@ class LogLineNew extends Component {
   }
 
   /**
+   * Add new LogLine based on current description and tags
+   */
+  triggerSave() {
+    let newLogLine = this.state.addNewLogLine(this.state.description);
+    // this.state.setTagsToLogLine(newLogLine.id, this.state.tags);
+  }
+
+  /**
    * usual React render
    * @return {jsx} component with row class
    */
@@ -116,7 +126,7 @@ class LogLineNew extends Component {
         </div>
         <div className='col-xs-2'>
           <div className='row'>
-            <div className='col-xs-6'><Icon type={'fas fa-save'}/></div>
+            <div className='col-xs-6'><Icon type={'fas fa-save'} onClick={() => this.triggerSave()}/></div>
             <div className='col-xs-6'><Icon type={'fas fa-times-circle'} hoverColour={this.style.colours.red}/></div>
           </div>
         </div>

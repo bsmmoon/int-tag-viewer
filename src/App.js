@@ -26,6 +26,34 @@ class App extends Component {
   }
 
   /**
+   * method to create new LogLine
+   * @param {string} description description of the new line
+   * @return {object} object of new LogLine
+   */
+  addNewLogLine(description) {
+    let logs = this.state.list.logs;
+    let newLogLineData = {
+      description: description,
+      tagIds: [],
+    };
+
+    let newLog = DataAdapter.createLogLine(newLogLineData);
+    if (!newLog) return;
+
+    logs = logs.unshift(newLog);
+    this.setState({logs: logs});
+    return newLog;
+  }
+
+  /**
+   * set tags to LogLine. if necessary create new tags.
+   * @param {*} logLine hi
+   * @param {*} tags list of name of tags
+   */
+  setTagsToLogLine(logLine, tags) {
+  }
+
+  /**
    * construct LogLing components
    * @param {object} listData with name, description, tags, filters, and time_range
    * @return {jsx} component
@@ -45,9 +73,12 @@ class App extends Component {
    * @return {jsx} component
    */
   makeNewLogLineComponent() {
-    console.log('makeNewLogLineComponent');
     const allTags = this.state.tags;
-    const newLogLineComponent = <LogLineNew tags={allTags}/>;
+    const newLogLineComponent = <LogLineNew
+      tags={allTags}
+      addNewLogLine={this.addNewLogLine.bind(this)}
+      setTagsToLogLine={this.setTagsToLogLine.bind(this)}
+    />;
     return newLogLineComponent;
   }
 
@@ -57,7 +88,6 @@ class App extends Component {
    * @return {jsx} component
    */
   makeLogLinesComponent(logs) {
-    console.log('makeLogLinesComponent');
     const allTags = this.state.tags;
     const logLinesComponent = logs.map(function(logLine) {
       const tags = logLine.tagIds.map(function(tagId) {
