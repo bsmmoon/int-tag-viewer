@@ -20,13 +20,14 @@ class LogLineNew extends Component {
 
     this.style = Style.import();
 
+    this.addNewLogLine = props.addNewLogLine;
+    this.setTagsToLogLine = props.setTagsToLogLine;
+    this.toggleTag = props.toggleTag;
+
     this.state = {
       description: '',
       newTag: '',
       tags: [],
-      addNewLogLine: props.addNewLogLine,
-      setTagsToLogLine: props.setTagsToLogLine,
-      toggleTag: props.toggleTag,
     };
   }
 
@@ -77,7 +78,7 @@ class LogLineNew extends Component {
       return <Tag
         key={tag}
         name={tag}
-        toggleTag={this.state.toggleTag}
+        toggleTag={this.toggleTag}
       />;
     }.bind(this)) : <div
       style={Style.merge([this.style.base.margin.right.small, this.style.base.margin.bottom.tiny, {display: 'inline-block'}])}
@@ -126,9 +127,9 @@ class LogLineNew extends Component {
    * Add new LogLine based on current description and tags
    */
   triggerSave() {
-    let newLogLine = this.state.addNewLogLine(this.state.description);
+    let newLogLine = this.addNewLogLine(this.state.description);
     if (!newLogLine) return;
-    this.state.setTagsToLogLine(newLogLine.id, this.state.tags);
+    this.setTagsToLogLine(newLogLine.id, this.state.tags);
     this.setState({
       description: '',
       newTag: '',

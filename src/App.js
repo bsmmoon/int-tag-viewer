@@ -19,7 +19,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     let state = {};
-    let data = DataAdapter.import();
+    this.dataAdapter = new DataAdapter();
+    let data = this.dataAdapter.import();
     Object.assign(state, {
       listDetails: data.listDetails,
       logLines: data.logLines,
@@ -41,7 +42,7 @@ class App extends Component {
     } else {
       tags.splice(index, 1);
     }
-    let data = DataAdapter.import({
+    let data = this.dataAdapter.reimport({
       tags: tags,
     });
     Object.assign(state, {
@@ -64,7 +65,7 @@ class App extends Component {
       tags: [],
     };
 
-    let newLog = DataAdapter.createLogLine(newLogLineData);
+    let newLog = this.dataAdapter.createLogLine(newLogLineData);
     if (!newLog) return;
 
     logLines[newLog.id] = newLog;
@@ -78,23 +79,8 @@ class App extends Component {
    * @param {*} logLineTags list of name of tags
    */
   setTagsToLogLine(logLineId, logLineTags) {
-    let logLines = this.state.logLines;
-    let tags = this.state.tags;
-    logLines[logLineId].tags = logLineTags;
-    for (let logLineTag of logLineTags) {
-      if (!tags[logLineTag]) {
-        // new tag
-        tags[logLineTag] = {
-          id: logLineTag,
-          name: logLineTag,
-          logIds: [logLineId],
-        };
-      } else {
-        // existing tag
-        tags[logLineTag].logIds.push(logLineId);
-      }
-    }
-    this.setState({logLines: logLines, tags: tags});
+    let response = this.dataAdapter.setTagsToLogLine(logLineId, logLineTags);
+    this.setState({logLines: response.logLines, tags: response.tags});
   }
 
   /**

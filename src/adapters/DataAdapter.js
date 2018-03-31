@@ -2,15 +2,28 @@ import StringService from '../services/StringService';
 
 /**
  * Adapter to data sources that encapsulates external communications.
+ * Currently it is stateful because there is no database
  */
 class DataAdapter {
   /**
-   * import
+   */
+  constructor() {
+    this.dataSource = DataAdapter.placeholderData();
+  }
+
+  /**
+   * @return {object} data needed by the app
+   */
+  import() {
+    return JSON.parse(JSON.stringify(this.dataSource));
+  }
+
+  /**
    * @param {object} opts options
    * @return {object} data needed by the app
    */
-  static import(opts={}) {
-    let data = this.placeholderData();
+  reimport(opts) {
+    let data = this.import();
     if (!!opts.tags) {
       if (opts.tags.length > 0) {
         let logLines = {};
@@ -24,6 +37,58 @@ class DataAdapter {
       data.listDetails.tags = opts.tags;
     }
     return data;
+  }
+
+  /**
+   * how LogLine is created is hidden behind this function.
+   * when actual thing is implemented update accordingly
+   * @param {object} logLineData hi
+   * @return {object} object of new LogLine
+   */
+  createLogLine(logLineData) {
+    logLineData.description = logLineData.description.trim();
+    if (logLineData.description.length === 0) return;
+    let time = StringService.dateNow();
+    let id = StringService.hashCode([logLineData.description, time].join(' '));
+    let logLine = Object.assign(logLineData, {
+      id: id,
+      time: time,
+      tags: [],
+    });
+    this.dataSource.logLines[logLine.id] = logLine;
+    return logLine;
+  }
+
+  /**
+   * set tags to LogLine. if necessary create new tags.
+   * @param {*} logLineId id
+   * @param {*} logLineTags list of name of tags
+   * @return {object} logLines with tags updated and tags with longLines updated
+   */
+  setTagsToLogLine(logLineId, logLineTags) {
+    let data = this.import();
+    let logLines = data.logLines;
+    let tags = data.tags;
+    logLines[logLineId].tags = logLineTags;
+    for (let logLineTag of logLineTags) {
+      if (!tags[logLineTag]) {
+        // new tag
+        tags[logLineTag] = {
+          id: logLineTag,
+          name: logLineTag,
+          logIds: [logLineId],
+        };
+      } else {
+        // existing tag
+        tags[logLineTag].logIds.push(logLineId);
+      }
+    }
+    this.dataSource.logLines = logLines;
+    this.dataSource.tags = tags;
+    return {
+      logLines: logLines,
+      tags: tags,
+    };
   }
 
   /**
@@ -65,25 +130,6 @@ class DataAdapter {
       logLines: logLines,
       tags: tags,
     };
-  }
-
-  /**
-   * how LogLine is created is hidden behind this function.
-   * when actual thing is implemented update accordingly
-   * @param {object} logLineData hi
-   * @return {object} object of new LogLine
-   */
-  static createLogLine(logLineData) {
-    logLineData.description = logLineData.description.trim();
-    if (logLineData.description.length === 0) return;
-    let time = StringService.dateNow();
-    let id = StringService.hashCode([logLineData.description, time].join(' '));
-    let logLine = Object.assign(logLineData, {
-      id: id,
-      time: time,
-      tags: [],
-    });
-    return logLine;
   }
 }
 
