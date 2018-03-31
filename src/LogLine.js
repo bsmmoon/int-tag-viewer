@@ -20,12 +20,13 @@ class LogLine extends Component {
 
     this.style = Style.import();
 
+    this.toggleTag = props.toggleTag;
+
     this.state = {
       id: props.id,
       description: props.description,
       time: props.time,
       tags: props.tags,
-      toggleTag: props.toggleTag,
     };
   }
 
@@ -39,7 +40,7 @@ class LogLine extends Component {
       return <Tag
         key={tag}
         name={tag}
-        toggleTag={this.state.toggleTag}
+        toggleTag={this.toggleTag}
       />;
     }.bind(this)) : <div
       style={Style.merge([this.style.base.margin.right.small, this.style.base.margin.bottom.tiny, {display: 'inline-block'}])}

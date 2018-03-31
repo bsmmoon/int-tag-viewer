@@ -1,6 +1,8 @@
 // React and component classes are not cught by Eslint.
 /* eslint-disable no-unused-vars */
 import React, {Component} from 'react';
+
+import Tag from './Tag';
 /* eslint-enable no-unused-vars */
 
 import Style from './Style';
@@ -17,6 +19,8 @@ class ListSummary extends Component {
 
     this.style = Style.import();
 
+    this.toggleTag = props.toggleTag;
+
     this.state = {
       name: props.name,
       description: props.description,
@@ -31,6 +35,16 @@ class ListSummary extends Component {
    * @return {jsx} component with row class
    */
   render() {
+    const tags = this.state.tags;
+    const tagComponents = tags.length > 0 ? tags.map(function(tag) {
+      return <Tag
+        key={tag}
+        name={tag}
+        toggleTag={this.toggleTag}
+      />;
+    }.bind(this)) : <div
+      style={Style.merge([this.style.base.margin.right.small, this.style.base.margin.bottom.tiny, {display: 'inline-block'}])}
+    >No tag</div>;
     return (
       <div className='row' style={Style.merge([this.style.base.margin.bottom.medium, this.style.base.font.size.small])}>
         <div className='row' style={Style.merge([this.style.base.font.size.medium])}>
@@ -43,7 +57,7 @@ class ListSummary extends Component {
         </div>
         <div className='row'>
           <div className='col-xs-2'>Applied Tags:</div>
-          <div className='col-xs'>{this.state.tags.length > 0 ? this.state.tags.join(', ') : 'Not selected'}</div>
+          <div className='col-xs'>{tagComponents}</div>
         </div>
         <div className='row'>
           <div className='col-xs-2'>Applied Filters:</div>

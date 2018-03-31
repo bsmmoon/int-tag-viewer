@@ -95,6 +95,7 @@ class App extends Component {
       tags={listData.tags}
       filters={listData.filters}
       timeRange={listData.timeRange}
+      toggleTag={this.toggleTag.bind(this)}
     />;
   }
 
