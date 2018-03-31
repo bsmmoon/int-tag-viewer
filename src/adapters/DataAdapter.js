@@ -18,6 +18,10 @@ class DataAdapter {
    * @return {object} placeholder data for development
    */
   static placeholderData() {
+    let tags = {
+      'Travel': {id: 'Travel', name: 'Travel', logIds: []},
+      'Bucket List': {id: 'Bucket List', name: 'Bucket List', logIds: []},
+    };
     let logLines = {};
     [
       {description: 'Go to Constantinople', time: '2017-03-20 T10:02:00:000', tags: ['Bucket List', 'Travel']},
@@ -30,6 +34,9 @@ class DataAdapter {
         id: id,
       });
       logLines[logLine.id] = logLine;
+      logLine.tags.forEach(function(tag) {
+        tags[tag].logIds.push(logLine.id);
+      });
     });
     let listDetails = {
       name: 'Test List',
@@ -41,10 +48,7 @@ class DataAdapter {
     return {
       listDetails: listDetails,
       logLines: logLines,
-      tags: {
-        'Travel': {id: 'Travel', name: 'Travel', logIds: [3]},
-        'Bucket List': {id: 'Bucket List', name: 'Bucket List', logIds: [2, 3]},
-      },
+      tags: tags,
     };
   }
 

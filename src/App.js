@@ -55,6 +55,19 @@ class App extends Component {
     let logLines = this.state.logLines;
     let tags = this.state.tags;
     logLines[logLineId].tags = logLineTags;
+    for (let logLineTag of logLineTags) {
+      if (!tags[logLineTag]) {
+        // new tag
+        tags[logLineTag] = {
+          id: logLineTag,
+          name: logLineTag,
+          logIds: [logLineId],
+        };
+      } else {
+        // existing tag
+        tags[logLineTag].logIds.push(logLineId);
+      }
+    }
     this.setState({logLines: logLines, tags: tags});
   }
 
