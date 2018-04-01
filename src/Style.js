@@ -45,6 +45,8 @@ class Style {
         base.font.colour.white,
         base.backgroundColour.blue,
         {padding: '2px 6px 2px 6px'},
+        base.unselectable,
+        base.cursor.pointer,
       ]),
       logLineNew: Style.merge([
         base.backgroundColour.lightGrey,
@@ -79,11 +81,11 @@ class Style {
     const colours = this.colours();
     const style = {
       font: {
-        bold: {'fontWeight': 'bold'},
+        bold: {fontWeight: 'bold'},
         colour: {
-          red: {'color': colours.red},
-          green: {'color': colours.green},
-          white: {'color': colours.white},
+          red: {color: colours.red},
+          green: {color: colours.green},
+          white: {color: colours.white},
         },
         size: {
           medium: {
@@ -145,6 +147,19 @@ class Style {
           display: 'flex',
           alignItems: 'center', /* Vertical center alignment */
           justifyContent: 'center', /* Horizontal center alignment */
+        },
+      },
+      unselectable: {
+        WebkitTouchCallout: 'none',
+        WebkitUserSelect: 'none',
+        KhtmlUserSelect: 'none',
+        MozUserSelect: 'none',
+        MsUserSelect: 'none',
+        WserSelect: 'none',
+      },
+      cursor: {
+        pointer: {
+          cursor: 'pointer',
         },
       },
     };

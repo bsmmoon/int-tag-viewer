@@ -17,11 +17,12 @@ class Icon extends Component {
 
     this.style = Style.import();
 
+    this.onClick = !!props.onClick ? props.onClick : function() {};
+
     this.state = {
       type: props.type,
       isHovered: false,
       hoverColour: !!props.hoverColour ? props.hoverColour : this.style.colours.blue,
-      onClick: props.onClick,
     };
   }
 
@@ -39,7 +40,7 @@ class Icon extends Component {
   render() {
     return (
       <div
-        onClick={(e) => this.state.onClick(e)}
+        onClick={(e) => this.onClick(e)}
         onMouseEnter={(e) => this.toggleHover()}
         onMouseLeave={(e) => this.toggleHover()}
         style={{

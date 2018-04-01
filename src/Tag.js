@@ -18,7 +18,7 @@ class Tag extends Component {
     this.style = Style.import();
 
     this.toggleTag = props.toggleTag;
-    
+
     this.state = {
       name: props.name,
     };
