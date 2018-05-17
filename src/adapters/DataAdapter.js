@@ -8,15 +8,21 @@ class DataAdapter {
   /**
    */
   constructor() {
-    this.dataSource = DataAdapter.placeholderData();
+    // this.dataSource = DataAdapter.placeholderData();
+    this.dataSource = 'https://script.google.com/macros/s/AKfycbyLCeMzeQoGSh2tWnQ3HJSSXzFfMK9_3NWBNr561qNiMPbvtXFv/exec?action=get';
   }
 
   /**
+   * import data
    * @return {object} data needed by the app
    */
   async import() {
-    let data = JSON.parse(JSON.stringify(this.dataSource));
-    return data;
+    const request = require('request-promise');
+    const url = 'https://script.google.com/macros/s/AKfycbyLCeMzeQoGSh2tWnQ3HJSSXzFfMK9_3NWBNr561qNiMPbvtXFv/exec?action=get';
+    return await request(url).then((response) => {
+      let data = JSON.parse(response);
+      return data;
+    });
   }
 
   /**

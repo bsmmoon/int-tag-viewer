@@ -28,7 +28,9 @@
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
     "react-scripts": "^1.1.1",
-    "webpack": "^4.1.0",
+    "request": "^2.86.0",
+    "request-promise": "^4.2.2",
+    "webpack": "^3.11.0",
     "webpack-dev-server": "^3.1.0"
   },
   "devDependencies": {
