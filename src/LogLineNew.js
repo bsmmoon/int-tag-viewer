@@ -26,7 +26,7 @@ class LogLineNew extends Component {
 
     this.state = {
       description: '',
-      newTag: '',
+      tagInput: '',
       tags: [],
     };
   }
@@ -37,33 +37,44 @@ class LogLineNew extends Component {
    * @param {*} name tag name
    */
   addTag(name) {
+    this.addTags([name]);
+  }
+
+  /**
+   * convert array of tags into actual tag
+   * @param {*} newTags array of tags
+   */
+  addTags(newTags) {
     let tags = this.state.tags;
-    if (name.length > 0) {
-      if (tags.indexOf(name) === -1) {
-        tags = tags.concat(name);
+    if (newTags.length > 0) {
+      for (let newTag of newTags) {
+        if (tags.indexOf(newTag) === -1) {
+          tags = tags.concat(newTag);
+        }
       }
     }
     this.setState({
       tags: tags,
-      newTag: '',
+      tagInput: '',
     });
   }
 
   /**
-   * trigger addTag if , is passed
+   * trigger addTags if , exists
    * TODO: consider using ENTER instead to allow , in tag name
-   * @param {*} newTag tag name
+   * @param {*} tagInput tag name
    */
-  triggerAddTag(newTag) {
-    newTag = newTag.replace(/[^0-9a-z,-_ ]/gi, '');
-    if (newTag.trim().slice(-1) === ',') {
-      newTag = newTag.slice(0, 20 + 1);
-      const name = newTag.slice(0, -1).trim();
-      this.addTag(name);
+  triggerAddTag(tagInput) {
+    tagInput = tagInput.replace(/[^0-9a-z,-_ ]/gi, '');
+    if (tagInput.indexOf(',') !== -1) {
+      let newTags = tagInput.split(',').map((e) => e.trim()).filter((e) => {
+        return e.length > 0;
+      });
+      this.addTags(newTags);
     } else {
-      newTag = newTag.slice(0, 20);
+      tagInput = tagInput.slice(0, 20);
       this.setState({
-        newTag: newTag,
+        tagInput: tagInput,
       });
     }
   }
@@ -95,7 +106,7 @@ class LogLineNew extends Component {
    */
   onKeyDownAtTagInput(keyCode) {
     if (keyCode === 8) {
-      if (this.state.newTag.length === 0) {
+      if (this.state.tagInput.length === 0) {
         let tags = this.state.tags;
         tags.pop();
         this.setState({
@@ -103,8 +114,8 @@ class LogLineNew extends Component {
         });
       }
     } else if (keyCode === 13) {
-      if (this.state.newTag.length > 0) {
-        this.addTag(this.state.newTag);
+      if (this.state.tagInput.length > 0) {
+        this.triggerAddTag(this.state.tagInput);
       } else {
         this.onKeyDown(keyCode);
       }
@@ -132,7 +143,7 @@ class LogLineNew extends Component {
     this.setTagsToLogLine(newLogLine.id, this.state.tags);
     this.setState({
       description: '',
-      newTag: '',
+      tagInput: '',
       tags: [],
     });
   }
@@ -163,7 +174,7 @@ class LogLineNew extends Component {
               {tagComponents}
               <input
                 type="text"
-                value={this.state.newTag}
+                value={this.state.tagInput}
                 onChange={(e) => this.triggerAddTag(e.target.value)}
                 onKeyDown={(e) => this.onKeyDownAtTagInput(e.keyCode)}
               ></input>
