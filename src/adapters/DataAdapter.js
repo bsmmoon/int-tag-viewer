@@ -14,16 +14,17 @@ class DataAdapter {
   /**
    * @return {object} data needed by the app
    */
-  import() {
-    return JSON.parse(JSON.stringify(this.dataSource));
+  async import() {
+    let data = JSON.parse(JSON.stringify(this.dataSource));
+    return data;
   }
 
   /**
    * @param {object} opts options
    * @return {object} data needed by the app
    */
-  reimport(opts) {
-    let data = this.import();
+  async reimport(opts) {
+    let data = await this.import();
     if (!!opts.tags) {
       if (opts.tags.length > 0) {
         let logLines = {};

@@ -19,14 +19,21 @@ class App extends Component {
   constructor(props) {
     super(props);
     let state = {};
-    this.dataAdapter = new DataAdapter();
-    let data = this.dataAdapter.import();
     Object.assign(state, {
-      listDetails: data.listDetails,
-      logLines: data.logLines,
-      tags: data.tags,
+      loaded: false,
     });
     this.state = state;
+
+    this.dataAdapter = new DataAdapter();
+    this.dataAdapter.import().then((data) => {
+      Object.assign(state, {
+        listDetails: data.listDetails,
+        logLines: data.logLines,
+        tags: data.tags,
+        loaded: true,
+      });
+      this.setState(state);
+    });
   }
 
   /**
@@ -42,15 +49,16 @@ class App extends Component {
     } else {
       tags.splice(index, 1);
     }
-    let data = this.dataAdapter.reimport({
+    this.dataAdapter.reimport({
       tags: tags,
+    }).then((data) => {
+      Object.assign(state, {
+        listDetails: data.listDetails,
+        logLines: data.logLines,
+        tags: data.tags,
+      });
+      this.setState(state);
     });
-    Object.assign(state, {
-      listDetails: data.listDetails,
-      logLines: data.logLines,
-      tags: data.tags,
-    });
-    this.setState(state);
   }
 
   /**
@@ -145,10 +153,21 @@ class App extends Component {
   }
 
   /**
+   * construct loading component
+   * @return {jsx} component
+   */
+  makeLoadingComponent() {
+    return (
+      <div>Loading...</div>
+    );
+  }
+
+  /**
    * usual React render
    * @return {jsx} component
    */
   render() {
+    if (!this.state.loaded) return this.makeLoadingComponent();
     const newLogLineComponent = this.makeNewLogLineComponent();
     const listSummaryComponent = this.makeListSummaryComponent(this.state.listDetails);
     const logLinesComponent = this.makeLogLinesComponent(this.state.logLines);
