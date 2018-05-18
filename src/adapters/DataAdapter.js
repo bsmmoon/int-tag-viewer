@@ -8,42 +8,36 @@ class DataAdapter {
   /**
    */
   constructor() {
-    // this.dataSource = DataAdapter.placeholderData();
     this.dataSource = 'https://script.google.com/macros/s/AKfycbyLCeMzeQoGSh2tWnQ3HJSSXzFfMK9_3NWBNr561qNiMPbvtXFv/exec?action=get';
   }
 
   /**
    * import data
+   * @param {object} query key value for query string
    * @return {object} data needed by the app
    */
-  async import() {
+  async import(query={}) {
+    // return DataAdapter.placeholderData(query); // Dev purpose
+
+    if (!!query.tags) {
+      if (query.tags.length > 0) {
+        query['tags'] = query.tags.join(',');
+      }
+    }
     const request = require('request-promise');
-    const url = 'https://script.google.com/macros/s/AKfycbyLCeMzeQoGSh2tWnQ3HJSSXzFfMK9_3NWBNr561qNiMPbvtXFv/exec?action=get';
+
+    let url = 'https://script.google.com/macros/s/AKfycbyLCeMzeQoGSh2tWnQ3HJSSXzFfMK9_3NWBNr561qNiMPbvtXFv/exec?action=get';
+    let queryKeys = Object.keys(query);
+    if (queryKeys.length > 0) {
+      url += queryKeys.map((queryKey) => {
+        return ['&', queryKey, '=', query[queryKey]].join('');
+      });
+    }
     return await request(url).then((response) => {
       let data = JSON.parse(response);
+      console.log(data);
       return data;
     });
-  }
-
-  /**
-   * @param {object} opts options
-   * @return {object} data needed by the app
-   */
-  async reimport(opts) {
-    let data = await this.import();
-    if (!!opts.tags) {
-      if (opts.tags.length > 0) {
-        let logLines = {};
-        opts.tags.forEach(function(tag) {
-          data.tags[tag].logIds.forEach(function(logId) {
-            logLines[logId] = data.logLines[logId];
-          });
-        });
-        data.logLines = logLines;
-      }
-      data.listDetails.tags = opts.tags;
-    }
-    return data;
   }
 
   /**
@@ -100,10 +94,15 @@ class DataAdapter {
 
   /**
    * make placeholder data for development
-   * @param {object} opts options
+   * @param {object} query key value for query string
    * @return {object} placeholder data for development
    */
-  static placeholderData() {
+  static placeholderData(query={}) {
+    if (Object.keys(query).length === 0) {
+      query = {
+        tags: [],
+      };
+    }
     let tags = {
       'Travel': {id: 'Travel', name: 'Travel', logIds: []},
       'Bucket List': {id: 'Bucket List', name: 'Bucket List', logIds: []},
@@ -128,7 +127,7 @@ class DataAdapter {
       id: 1,
       name: 'Test List',
       description: 'This is a mock list for development',
-      tags: [],
+      tags: query.tags,
       filters: 'Not selected',
       timeRange: 'Not selected',
     };

@@ -42,14 +42,14 @@ class App extends Component {
    */
   toggleTag(tag) {
     let state = this.state;
-    let tags = state.listDetails.tags;
+    let tags = state.listDetails.tags.slice();
     const index = tags.indexOf(tag);
     if (index === -1) {
       tags.push(tag);
     } else {
       tags.splice(index, 1);
     }
-    this.dataAdapter.reimport({
+    this.dataAdapter.import({
       tags: tags,
     }).then((data) => {
       Object.assign(state, {
