@@ -21,11 +21,14 @@ class App extends Component {
     let state = {};
     Object.assign(state, {
       loaded: false,
+      listId: 1,
     });
     this.state = state;
 
     this.dataAdapter = new DataAdapter();
-    this.dataAdapter.import().then((data) => {
+    this.dataAdapter.import({
+      listId: this.state.listId,
+    }).then((data) => {
       Object.assign(state, {
         listDetails: data.listDetails,
         logLines: data.logLines,
@@ -50,6 +53,7 @@ class App extends Component {
       tags.splice(index, 1);
     }
     this.dataAdapter.import({
+      listId: this.state.listId,
       tags: tags,
     }).then((data) => {
       Object.assign(state, {
